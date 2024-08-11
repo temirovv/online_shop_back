@@ -46,7 +46,6 @@ async def get_contact_handler(message: Message, state: FSMContext):
         last_name = message.from_user.last_name
         username = username if username else first_name + ' ' + last_name
         telegram_id = message.from_user.id
-        print('Shu yerda chichvordi')
         user_pass = make_password(username)
         try:
             user = await User.objects.aget_or_create(
