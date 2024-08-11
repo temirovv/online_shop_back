@@ -6,12 +6,13 @@ from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 
 # custom files
-from bot.loader import dp
-from bot.states.contact import Contact
-from bot.keyboards.default.request_contact import get_contact_kb
+from products.bot.loader import dp
+from products.bot.states.contact import Contact
+from products.bot.keyboards.default.request_contact import get_contact_kb
 
 # imports from Django
 from users.models import User
+from django.contrib.auth.hashers import make_password
 
 
 @dp.message(CommandStart())
@@ -26,7 +27,7 @@ async def command_start_handler(message: Message, state: FSMContext) -> None:
 @dp.message(Contact.contact)
 async def get_contact_handler(message: Message, state: FSMContext):
     phone_number = None
-
+    print('keldi')
     if message.contact:
         phone_number = message.contact.phone_number
     else:
@@ -44,13 +45,14 @@ async def get_contact_handler(message: Message, state: FSMContext):
         last_name = message.from_user.last_name
         username = username if username else first_name + ' ' + last_name
         telegram_id = message.from_user.id
-
-        user = User.objects.create(
+        print('Shu yerda chichvordi')
+        user_pass = make_password(username)
+        user = await User.objects.aget_or_create(
             first_name=first_name, last_name=last_name,
-            username=username, telegram_id=telegram_id
+            username=username, telegram_id=telegram_id,
+            password=user_pass
         )
-        user.set_password(username)
-        user.save()
+        print(user)
     else:
         return
 

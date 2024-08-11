@@ -2,8 +2,8 @@ import asyncio
 import logging
 import sys
 
-from bot.loader import bot, dp
-import bot.handlers.users.start_handler
+from products.bot.loader import bot, dp
+from products.bot.handlers.users import start_handler
 
 
 async def main() -> None:
