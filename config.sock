@@ -1,0 +1,8 @@
+[program:online_shop]
+command=/temirovv/back/.venv/bin/gunicorn --workers 3 --bind unix:/root/temirovv/back/temirovv.sock config.wsgi:application
+directory=/temirovv/back/
+user=root
+autostart=true
+autorestart=true
+stderr_logfile=/temirovv/back/online_shop.err.log
+stdout_logfile=/temirovv/back/online_shop.out.log
