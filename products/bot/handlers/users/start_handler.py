@@ -9,11 +9,12 @@ from aiogram.fsm.context import FSMContext
 from products.bot.loader import dp
 from products.bot.states.contact import Contact
 from products.bot.keyboards.default.request_contact import get_contact_kb
+from products.bot.keyboards.default.main_menu import get_main_menu
 
 # imports from Django
 from users.models import User
 from django.contrib.auth.hashers import make_password
-
+from django.db.utils import IntegrityError
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message, state: FSMContext) -> None:
@@ -47,12 +48,17 @@ async def get_contact_handler(message: Message, state: FSMContext):
         telegram_id = message.from_user.id
         print('Shu yerda chichvordi')
         user_pass = make_password(username)
-        user = await User.objects.aget_or_create(
-            first_name=first_name, last_name=last_name,
-            username=username, telegram_id=telegram_id,
-            password=user_pass
-        )
-        print(user)
+        try:
+            user = await User.objects.aget_or_create(
+                first_name=first_name, last_name=last_name,
+                username=username, telegram_id=telegram_id,
+                password=user_pass
+            )
+            print(user)
+        except IntegrityError:
+            pass
+
+        await message.answer('Savatcha buyurtma berishga tayyor', reply_markup=await get_main_menu())
     else:
         return
 
