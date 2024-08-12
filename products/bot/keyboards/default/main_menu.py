@@ -1,6 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, WebAppInfo
 
-web_app = WebAppInfo(url="https://77.232.131.69/")
+web_app = WebAppInfo(url="https://temirovv.uz/")
 
 
 async def get_main_menu():
