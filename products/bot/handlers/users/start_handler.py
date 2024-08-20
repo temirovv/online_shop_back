@@ -56,6 +56,7 @@ async def get_contact_handler(message: Message, state: FSMContext):
             user, created = await User.objects.aget_or_create(
                 first_name=first_name, last_name=last_name,
                 username=username, telegram_id=telegram_id,
+                phone_number=phone_number,
                 defaults={'password': user_pass}
             )
 
