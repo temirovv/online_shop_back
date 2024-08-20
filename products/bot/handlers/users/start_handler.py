@@ -58,7 +58,7 @@ async def get_contact_handler(message: Message, state: FSMContext):
                 username=username, telegram_id=telegram_id,
                 password=user_pass
             )
-
+            await user.asave()
             print(f"user yaratildi: {user}")
         except IntegrityError:
             print(IntegrityError)
