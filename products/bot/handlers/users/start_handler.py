@@ -58,8 +58,11 @@ async def get_contact_handler(message: Message, state: FSMContext):
                 username=username, telegram_id=telegram_id,
                 password=user_pass
             )
+
             print(f"user yaratildi: {user}")
         except IntegrityError:
+            print(IntegrityError)
+            print('user yaratilmadi')
             pass
 
         await message.answer('Savatcha buyurtma berishga tayyor', reply_markup=await get_main_menu())
