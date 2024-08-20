@@ -31,15 +31,19 @@ async def get_contact_handler(message: Message, state: FSMContext):
     print('keldi')
     if message.contact:
         phone_number = message.contact.phone_number
+        print(f'kontakt kelgandagisi: {phone_number}')
     else:
         pattern = r'^\+998\d{9}$'
         text = message.text
         if re.match(pattern, text):
             phone_number = text
+            print(f'regex tekshirgandasi: {phone_number}')
         else:
+            print('regex dan raqam o\'tolmadi!')
             await message.answer(text='Raqam xato kiritlgan')  # noqa
             return
 
+    print(f'raqam tekshiruvi tugagandan so\'ng {phone_number}')
     if phone_number:
         username = message.from_user.username
         first_name = message.from_user.first_name
@@ -47,13 +51,14 @@ async def get_contact_handler(message: Message, state: FSMContext):
         username = username if username else first_name + ' ' + last_name
         telegram_id = message.from_user.id
         user_pass = make_password(username)
+        print(f"{username=}\n{first_name=}\n{last_name=}\n{telegram_id=}\n{user_pass=}\n")
         try:
             user = await User.objects.aget_or_create(
                 first_name=first_name, last_name=last_name,
                 username=username, telegram_id=telegram_id,
                 password=user_pass
             )
-            print(user)
+            print(f"user yaratildi: {user}")
         except IntegrityError:
             pass
 

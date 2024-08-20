@@ -1,8 +1,10 @@
 from django.db.models import (
     DateTimeField, Model, CharField, SlugField,
     CASCADE, TextField, FloatField, ForeignKey,
-    ImageField, PositiveIntegerField, TextChoices
+    ImageField, PositiveIntegerField, TextChoices,
+    F, Sum
 )
+
 from django.utils.timezone import now
 from datetime import timedelta
 from django.utils.text import slugify
@@ -104,3 +106,7 @@ class Basket(Model):
 
     def __str__(self):
         return self.product.name
+
+    @property
+    def all_sum(self):
+        return

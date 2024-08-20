@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'drf_spectacular',
-    'corsheaders',
+    'corsheaders',  # noqa
 ]
 
 MIDDLEWARE = [
