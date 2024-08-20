@@ -53,13 +53,16 @@ async def get_contact_handler(message: Message, state: FSMContext):
         user_pass = make_password(username)
         print(f"{username=}\n{first_name=}\n{last_name=}\n{telegram_id=}\n{user_pass=}\n")
         try:
-            user = await User.objects.aget_or_create(
+            user, created = await User.objects.aget_or_create(
                 first_name=first_name, last_name=last_name,
                 username=username, telegram_id=telegram_id,
-                password=user_pass
+                defaults={'password': user_pass}
             )
-            await user.asave()
-            print(f"user yaratildi: {user}")
+            
+            if created:
+                print(f"user yaratildi: {user}")
+            else:
+                print(f"user allaqachon mavjud: {user}")
         except IntegrityError:
             print(IntegrityError)
             print('user yaratilmadi')
